@@ -22,9 +22,8 @@ engine in 4,096 bytes of Python. Bounty: https://make.fun/bounty/tiny-chess-01
   (`+Hh[x]//64`) and is updated on beta cutoffs (`Hh[g] += d*d`)
 - quiescence search (captures, promotions, and check evasions)
 - transposition table, killer moves, MVV-LVA capture ordering
-- evaluation: material + piece-square tables (middlegame / endgame king),
-  bishop-pair bonus — maintained incrementally (O(1) per node instead of a
-  full board scan), with 64-square move generation
+- evaluation: material + piece-square tables, bishop-pair bonus —
+  maintained incrementally (O(1) per node), with 64-square move generation
 - talks to the harness env alone over HTTP (`POST /game`, `/move`, `/resign`)
 
 v5 vs v4 (same search, node budget 100,000 -> 150,000, plus history
@@ -34,10 +33,10 @@ heuristic + LMR, freed by code golfing): local trials on the current kit
 slower per move than v4 (avg ~1.9s vs ~1.0s) because of the larger node
 budget, but wins the head-to-head.
 
-v4 vs v2 (same 100,000-node budget, same search): local trials on the
-current kit (8 games each) — trial-0 Elo **1396** (3W 2D 3L) vs v2's 1326
-(3W 1D 4L), trial-1 Elo **1464** (3W 3D 2L) vs v2's 1326 (1W 5D 2L).
-Mean +104 Elo over the two trials; both trials agree v4 is stronger.
+Dev-grade target: beat v4's Elo 1451.
+
+v4 vs v2 (same 100,000-node budget): 1396 vs 1326 and 1464 vs 1326;
+mean +104 Elo over the two trials.
 
 The source is stored zlib-compressed + base64 in `main.py` (explicitly
 allowed by the competition: the payload and the unpacker both count toward
